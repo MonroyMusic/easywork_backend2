@@ -4,6 +4,7 @@ using easywork_backend2.Database;
 using easywork_backend2.Dtos.Project;
 using easywork_backend2.Entitys;
 using easywork_backend2.Entitys.Log;
+using easywork_backend2.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace easywork_backend2.Services;
@@ -13,14 +14,16 @@ public class ProjectService : IProjectService
     private readonly EasyWorkDbContext _context;
     private readonly IMapper _mapper;
     private readonly LogDBContext _logDB;
+    private readonly ILogServices _logServices;
     private readonly string _USER_ID = "";
 
-    public ProjectService(EasyWorkDbContext Context, IHttpContextAccessor httpContextAccesor, IMapper mapper,
+    public ProjectService(ILogServices logServices, EasyWorkDbContext Context, IHttpContextAccessor httpContextAccesor, IMapper mapper,
         LogDBContext logDB)
     {
         _context = Context;
         _mapper = mapper;
         _logDB = logDB;
+        _logServices = logServices;
         var idClaim = httpContextAccesor.HttpContext.User.Claims.Where(x => x.Type == "UserId").FirstOrDefault();
         _USER_ID = idClaim?.Value;
     }
@@ -29,23 +32,16 @@ public class ProjectService : IProjectService
     {
         var project = _mapper.Map<ProjectEntity>(dto);
 
-        //var log = _mapper.Map<LogsEntity>(dto);
-
         project.Id = Guid.NewGuid();
         project.User_Id = _USER_ID;
         project.Start_Time = DateTime.Now;
         project.State = ProjectStateEnum.Pending;
-
-        //log.Id = Guid.NewGuid();
-        //log.User_Id = _USER_ID;
-        //log.Action = "Creo un proyecto";
-        //log.Time = DateTime.Now;
+        
 
         await _context.Projects.AddAsync(project);
         await _context.SaveChangesAsync();
 
-        //await _logDB.AddAsync(log);
-        //await _logDB.SaveChangesAsync();
+        await _logServices.CreateLogAsync("Se creo el proyecto" + dto.Name);
 
         return new ResponseDto<ProjectDto>
         {

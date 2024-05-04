@@ -26,7 +26,7 @@ namespace easywork_backend2.Helpers
         private void LogMaps()
         {
 
-            CreateMap<CreateProjectDto, LogsEntity>();
+            CreateMap<CreateProjectDto, LogEntity>();
 
         }
     }

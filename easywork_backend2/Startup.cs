@@ -33,6 +33,7 @@ public class Startup
         //Custom Service
 
         services.AddTransient<IAuthService, AuthService>();
+        services.AddTransient<ILogServices, LogServices>();
         services.AddTransient<IProjectService, ProjectService>();
 
         //Cors

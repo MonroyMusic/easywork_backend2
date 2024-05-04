@@ -9,7 +9,7 @@ namespace easywork_backend2.Database
         public LogDBContext(DbContextOptions<LogDBContext> options) : base(options) 
         {}
 
-        public DbSet<LogsEntity> Logs { get; set; }
+        public DbSet<LogEntity> Logs { get; set; }
 
     }
 }
