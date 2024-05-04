@@ -1,0 +1,14 @@
+
+csharpsquid:S1192"FDefine a constant instead of using this literal 'AspNetRoles' 5 times.(ÅÔ¨çúÿÿÿÿJ$83933263-6773-4f0f-bee9-bab1d9d22b2d
+‹csharpsquid:S1192"HDefine a constant instead of using this literal 'VARCHAR(256)' 18 times.(ÎÅ¶ƒJ$626118d7-add6-4239-bf39-bb27972ba93f
+–csharpsquid:S1192"NDefine a constant instead of using this literal 'BLOB SUB_TYPE TEXT' 11 times.(³£ÄÜÿÿÿÿÿJ$6982a727-4ae9-4f89-8d57-c33dec02b4e7
+‰csharpsquid:S1192"FDefine a constant instead of using this literal 'AspNetUsers' 8 times.(ÏÍºêJ$b2074406-ce58-4c8b-8053-8a1a9fcaeb36
+‰csharpsquid:S1192""FDefine a constant instead of using this literal 'VARCHAR(50)' 4 times.(±´¸ÖJ$7bef8567-6ab6-4000-8cd2-f8a1dd33146b
+…csharpsquid:S1192("BDefine a constant instead of using this literal 'BOOLEAN' 6 times.(Ø€Î‹J$fb4b781d-b038-4d8d-af79-43ff182df392
+…csharpsquid:S11921"BDefine a constant instead of using this literal 'INTEGER' 7 times.(êÃöÃJ$b0df2937-de18-4680-be5c-50acbe644c97
+csharpsquid:S1192="UDefine a constant instead of using this literal 'Fb:ValueGenerationStrategy' 4 times.(Û»½ŸúÿÿÿÿJ$23c2011c-93f4-45de-b3da-42968c50f9a1
+„csharpsquid:S1192½"@Define a constant instead of using this literal 'Tasks' 6 times.(©İ¢øJ$1fbf2a01-2843-4ac3-8703-7e0f4aa659ff
+¡csharpsquid:S1192À"XDefine a constant instead of using this literal 'CHAR(16) CHARACTER SET OCTETS' 8 times.(ÔØøÑøÿÿÿÿJ$87f56d48-bd0a-4a6c-b08f-2a2b41f97bff
+csharpsquid:S1192Ã"DDefine a constant instead of using this literal 'TIMESTAMP' 4 times.(—œÕûúÿÿÿÿJ$5a4a5971-e850-48df-8352-d01b0c8ea070
+Œcsharpsquid:S1192è"CDefine a constant instead of using this literal 'Projects' 5 times.(î£Í²ÿÿÿÿÿJ$36ad2eac-6ad0-4dbd-93e4-2be1ff551892
+Œcsharpsquid:S1192†"HDefine a constant instead of using this literal 'TasksProjects' 4 times.(ûš¥J$1d1c3b45-0e80-49ac-a594-1eaccede7e35

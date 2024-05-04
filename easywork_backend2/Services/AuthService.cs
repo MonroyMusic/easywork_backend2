@@ -1,18 +1,17 @@
-﻿using easywork_backend.Dtos.Security;
-using easywork_backend.Dtos;
-using easywork_backend.Entitys;
-using easywork_backend.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using easywork_backend.Dtos;
+using easywork_backend.Dtos.Security;
+using easywork_backend2.Entitys;
+using easywork_backend2.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
-namespace easywork_backend.Services
+namespace easywork_backend2.Services
 {
     public class AuthService : IAuthService
     {
-
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly UserManager<UserEntity> _userManager;
         private readonly IConfiguration _configuration;
@@ -35,9 +34,8 @@ namespace easywork_backend.Services
 
         public async Task<ResponseDto<LoginResponseDto>> LoginAsync(LoginDto dto)
         {
-
             var result = await _signInManager.PasswordSignInAsync(
-                dto.Email,
+                dto.UserName,
                 dto.Passoword,
                 isPersistent: false,
                 lockoutOnFailure: false
@@ -45,119 +43,93 @@ namespace easywork_backend.Services
 
             if (result.Succeeded)
             {
-
-                var userEntity = await _userManager.FindByEmailAsync(dto.Email);
+                var userEntity = await _userManager.FindByNameAsync(dto.UserName);
 
                 var authClaims = new List<Claim>
                 {
-
                     new Claim(ClaimTypes.Email, userEntity.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim("UserId", userEntity.Id)
-
                 };
 
                 var userRoles = await _userManager.GetRolesAsync(userEntity);
 
                 foreach (var role in userRoles)
                 {
-
                     authClaims.Add(new Claim(ClaimTypes.Role, role));
-
                 }
 
                 var jwtToken = GetToken(authClaims);
 
                 return new ResponseDto<LoginResponseDto>
                 {
-
                     StatusCode = 200,
                     Status = true,
                     Message = "Inicio de Sesión realizado satisfactoriamente",
                     Data = new LoginResponseDto
                     {
-
-                        Email = dto.Email,
+                        Email = userEntity.Email,
                         Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                         TokenExpiration = jwtToken.ValidTo,
                     }
-
                 };
-
             }
 
             return new ResponseDto<LoginResponseDto>
             {
-
                 StatusCode = 400,
                 Status = false,
-                Message = "Fallo el inicio de Sesión"
-
+                Message = "Fallo el inicio de Sesión" + result.ToString()
             };
-
         }
 
         public async Task<ResponseDto<LoginResponseDto>> RefreshTokenAsync()
         {
-
             var userEntity = await _userManager.FindByIdAsync(_USER_ID);
 
             var authClaims = new List<Claim>
-                {
-
-                    new Claim(ClaimTypes.Email, userEntity.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim("UserId", userEntity.Id)
-
-                };
+            {
+                new Claim(ClaimTypes.Email, userEntity.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserId", userEntity.Id)
+            };
 
             var userRoles = await _userManager.GetRolesAsync(userEntity);
 
             foreach (var role in userRoles)
             {
-
                 authClaims.Add(new Claim(ClaimTypes.Role, role));
-
             }
 
             var jwtToken = GetToken(authClaims);
 
             return new ResponseDto<LoginResponseDto>
             {
-
                 StatusCode = 200,
                 Status = true,
                 Message = "Token Actualizado satisfactoriamente",
                 Data = new LoginResponseDto
                 {
-
                     Email = userEntity.Email,
                     Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                     TokenExpiration = jwtToken.ValidTo,
                 }
-
             };
-
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
-
             var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
 
             var token = new JwtSecurityToken(
-
                 issuer: _configuration["JWT:ValidIssuer"],
                 audience: _configuration["JWT:ValidAudience"],
                 expires: DateTime.Now.AddSeconds(20),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
-
             );
 
             return token;
-
         }
     }
-
 }

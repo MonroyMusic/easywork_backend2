@@ -7,7 +7,7 @@ namespace easywork_backend.Dtos.Security
 
         [Display(Name = "Correo Electrónico")]
         [Required(ErrorMessage = "El {0} es requerido")]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "La {0} es requerido")]

@@ -1,7 +1,7 @@
 ﻿using easywork_backend.Dtos;
 using easywork_backend.Dtos.Security;
 
-namespace easywork_backend.Services.Interfaces
+namespace easywork_backend2.Services.Interfaces
 {
     public interface IAuthService
     {
