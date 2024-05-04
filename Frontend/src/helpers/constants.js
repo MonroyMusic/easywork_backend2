@@ -1,5 +1,5 @@
 export const constants = () => {
     return{
-        API_URL: 'https://localhost:7067/api',
+        API_URL: 'http://localhost:5250/api',
     }
 }

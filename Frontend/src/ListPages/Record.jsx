@@ -1,16 +1,34 @@
 import MUIDataTable from "mui-datatables";
 import { Title } from "../components/Title"
 import { ThemeProvider, createTheme } from "@mui/material";
+import { useEffect, useState } from "react";
+import { LogService } from "../services/logtService copy";
 
-const columns = ["Acción", "Fecha", "UsuarioId"];
+const columns = [
+    {
+        label: "Acción",
+        name: ""
+    },
+    {
+        label: "Fecha",
+        name: ""
+    },
+    {
+        label: "UsuarioId",
+        name: ""
+    },
+];
 
 const Record = () => {
+    const [data, setData] = useState([])
 
-    //objeto que recibira la tabla
-    const data = [
-        ["Proyecto final", "07/abril/2024", "02/mayo/2024", "doing", ""],
+    useEffect(() => {
+        LogService.getAll().then(d => {
+            setData(d)
+        })
+    }, [])
 
-    ];
+
 
     const options = {
         selectableRows: false,

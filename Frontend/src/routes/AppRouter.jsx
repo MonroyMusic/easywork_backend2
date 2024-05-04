@@ -22,16 +22,22 @@ const AppRouter = () => {
   return (
     <Routes>
 
-      <Route path="/" element={
-        <PublicRoute>
-          <Login />
-        </PublicRoute>
-      } />
-      <Route path="/registro" element={
-        <PublicRoute>
-          <Register />
-        </PublicRoute>
-      } />
+      <Route
+        path="/"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/registro"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
 
 
       <Route
@@ -39,59 +45,21 @@ const AppRouter = () => {
           <div className="flex w-full flex-1 h-screen bg-gray-blue">
             <Sidebar />
             <div className="flex-1 container-md mx-10">
-              <Outlet />
+              <PrivateRoute>
+                <Outlet />
+              </PrivateRoute>
             </div>
           </div>
         }
       >
-        <Route path="/home" element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        } />
-
-        <Route path="/tareas" element={
-          <PrivateRoute>
-            <Tasks />
-          </PrivateRoute>
-        } />
-
-        <Route path="/progresos" element={
-        
-            <Progress />
-         
-        } />
-
-        <Route path="/calendario" element={
-          <PrivateRoute>
-            <MyCalendar />
-          </PrivateRoute>
-        } />
-
-        <Route path="/cuenta" element={
-          <PrivateRoute>
-            <Account />
-          </PrivateRoute>
-        } />
-
-        <Route path="/crearProyecto" element={
-          <PrivateRoute>
-            <NewProject />
-          </PrivateRoute>
-        } />
-
-        <Route path="/historial" element={
-      
-            <Record />
-        
-        } />
-
-        <Route path="proyecto" element={
-          <PrivateRoute>
-            <Project />
-          </PrivateRoute>
-        } />
-
+        <Route path="/home" element={<Home />} />
+        <Route path="/tareas" element={<Tasks />} />
+        <Route path="/progresos" element={<Progress />} />
+        <Route path="/calendario" element={<MyCalendar />} />
+        <Route path="/cuenta" element={<Account />} />
+        <Route path="/crearProyecto" element={<NewProject />} />
+        <Route path="/historial" element={<Record />} />
+        <Route path="proyecto" element={<Project />} />
       </Route>
     </Routes>
   );

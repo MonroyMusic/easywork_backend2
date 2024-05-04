@@ -45,6 +45,7 @@ public class ProjectService : IProjectService
 
         return new ResponseDto<ProjectDto>
         {
+            Status=true,
             Data = new ProjectDto
             {
                 Id = project.Id,

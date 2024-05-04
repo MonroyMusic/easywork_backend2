@@ -1,13 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { Title } from "../components/Title";
 import Card from "../projects/Card";
+import { useEffect, useState } from "react";
+import { ProjectService } from "../services/projectService";
 
-const Home = ( {Projects} ) => {
+const Home = () => {
   const navigate = useNavigate();
 
   const handleNewProject = () => {
     navigate("/crearProyecto");
   };
+  const [projectos, setProyectos] = useState([])
+
+  useEffect(() => {
+    ProjectService.getAll().then(data => {
+      console.log(data);
+      setProyectos(data)
+    })
+  }, [])
 
   return (
     <div className=" items-center p-4 text-white">
@@ -24,12 +34,12 @@ const Home = ( {Projects} ) => {
 
       {/* Tarjetas de proyectos creados: iterar los titulos de los proyectos creados */}
 
-      
-      {/* <ul className="flex flex-wrap gap-4 p-8 ">
-        {Projects.map((project, index) => (
-          <Card key={index} title={project} />
+
+      <ul className="flex flex-wrap gap-4 p-8 ">
+        {projectos?.map((project, index) => (
+          <Card key={index} title={project?.name} />
         ))}
-      </ul>  */}
+      </ul>
 
 
     </div>

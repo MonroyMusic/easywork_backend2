@@ -5,48 +5,39 @@ import { LuEye } from "react-icons/lu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { constants } from '../helpers/constants';
+import { AuthService } from "../services/AuthService";
+import { useAuthContext } from "../context";
 
 const Login = () => {
+  const { login } = useAuthContext()
   //Estado para mostrar contraseña
   const [showPassword, setShowPassword] = useState(false);
-
   const [loginForm, setLoginForm] = useState({
     userName: '',
     password: ''
   });
 
-  const { API_URL } = constants();
+  const handleLogin = async () => {
+
+    const user = await AuthService.login(loginForm.userName, loginForm.password)
+    login(user)
+  }
+
+
 
   const handleShowPassword = async (e) => {
-
     setShowPassword(!showPassword);
   };
 
-  const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginForm)
-      });
-
-      if (!response.ok) {
-        throw new Error('Error en el inicio de sesión');
-      }
-
-      const result = response.json();
-      navigate("/home");
-
+      await handleLogin()
     } catch (error) {
       console.log(error);
     }
-
   }
 
   return (

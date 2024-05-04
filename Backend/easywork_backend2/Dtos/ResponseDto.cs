@@ -5,7 +5,7 @@ namespace easywork_backend.Dtos
     public class ResponseDto<T>
     {
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true ;
 
         [JsonIgnore]
         public int StatusCode { get; set; }

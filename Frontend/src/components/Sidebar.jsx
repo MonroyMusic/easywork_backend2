@@ -7,6 +7,7 @@ import { SlCalender, SlChart } from "react-icons/sl";
 import { VscAccount } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import { LiaHistorySolid } from "react-icons/lia";
+import { useAuthContext } from "../context";
 
 const NavItem = ({ icon, title, onClick, open }) => (
   <li
@@ -25,7 +26,7 @@ const NavItem = ({ icon, title, onClick, open }) => (
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
-
+const   {logout}=useAuthContext()
   return (
     <div className="flex">
       <div
@@ -98,7 +99,7 @@ const Sidebar = () => {
 
           <NavItem
             icon={<CiLogout />}
-            onClick={() => navigate("/login")}
+            onClick={() => logout()}
             open={open}
             title={"Cerrar Sesion"}
           />

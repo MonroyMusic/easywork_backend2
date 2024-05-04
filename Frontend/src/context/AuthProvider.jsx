@@ -16,11 +16,12 @@ export const AuthProvider = ({children}) => {
 
   const login = (user) => {
     localStorage.setItem('user', JSON.stringify(user));
-    navigate('/');
+    navigate('/home');
   }
 
   const logout = () => {
     localStorage.removeItem('user');
+    navigate('/');
   }
 
   return (

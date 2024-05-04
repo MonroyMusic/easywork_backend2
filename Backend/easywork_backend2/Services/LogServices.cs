@@ -1,18 +1,25 @@
-﻿using easywork_backend2.Database;
+﻿using AutoMapper;
+using easywork_backend.Dtos;
+using easywork_backend2.Database;
+using easywork_backend2.Dtos.Log;
+using easywork_backend2.Dtos.Project;
 using easywork_backend2.Entitys.Log;
 using easywork_backend2.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace easywork_backend2.Services
 {
     public class LogServices : ILogServices
     {
         private readonly LogDBContext _logDB;
+        private readonly IMapper _mapper;
         private readonly string _USER_ID = "";
 
-        public LogServices(LogDBContext logDB, IHttpContextAccessor httpContextAccessor)
+        public LogServices(LogDBContext logDB, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
 
             _logDB = logDB;
+            _mapper = mapper;
             var idClaim = httpContextAccessor.HttpContext.User.Claims.Where(x => x.Type == "UserId").FirstOrDefault();
             _USER_ID = idClaim?.Value;
 
@@ -51,8 +58,23 @@ namespace easywork_backend2.Services
             };
 
             await _logDB.AddAsync(log);
-
             await _logDB.SaveChangesAsync();
+        }
+
+        public async Task<ResponseDto<List<LogDto>>> GetAllAsync()
+        {
+
+            var logs = await _logDB.Logs
+            .Where(x => x.User_Id == _USER_ID)
+            .ToListAsync();
+
+            var logsDtos = _mapper.Map<List<LogDto>>(logs);
+
+            return new ResponseDto<List<LogDto>>
+            {
+                Data = logsDtos,
+                StatusCode = 200
+            };
 
         }
 

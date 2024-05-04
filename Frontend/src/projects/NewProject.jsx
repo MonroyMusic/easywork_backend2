@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ProjectService } from "../services/projectService";
 
 const NewProject = ({ onProjectCreated }) => {
 
@@ -15,34 +16,23 @@ const NewProject = ({ onProjectCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (errors.length === 0) {
-      //console.log('no hay errores')
-      try {
-        const response = await fetch(`${API_URL}/auth/...`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newProject)
-
-        });
-        console.log(newProject);
-        onProjectCreated(newProject.nameProject);
-        navigate("/home");
-
-
-        if (!response.ok) {
-          throw new Error('Fallo en la creacion de proyecto');
-        }
-
-        const result = await response.json();
-        login(result.data);
-
-      } catch (error) {
-        console.log(error);
+    try {
+      const res = await ProjectService.createProject({
+        project_Type: newProject.projectType,
+        description: newProject.description,
+        end_Time: newProject.finishDate,
+        name: newProject.nameProject
+      })
+      if (!res.status) {
+        throw new Error('Fallo en la creacion de proyecto');
       }
+      navigate("/home");
 
+
+    } catch (error) {
+      console.log(error);
     }
+
   }
 
 
@@ -104,7 +94,7 @@ const NewProject = ({ onProjectCreated }) => {
 
 
           <div className="text-white mt-3 flex items-center justify-center">
-            <button type="button" className="bg-blue rounded-md p-2">Crear Proyecto</button>
+            <button type="submit" className="bg-blue rounded-md p-2">Crear Proyecto</button>
 
             <span
               className="bg-blue rounded-md p-2 ml-7 cursor-pointer"
